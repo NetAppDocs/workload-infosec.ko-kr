@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: ontap-execution-options.html 
+keywords: ONTAP execution options, Lambda link, NetApp Console Agent, VPC, outbound-only connectivity, network boundaries, credential boundaries, auditability, lifecycle management 
+summary: 일부 NetApp Workload Factory 워크플로는 AWS API를 통해 노출되지 않는 ONTAP 네이티브 작업을 필요로 합니다. Workload Factory는 이러한 작업을 AWS 계정 경계 내에서 유지할 수 있는 두 가지 실행 옵션을 제공합니다. 
+---
+= NetApp Workload Factory용 ONTAP 실행 옵션
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+일부 NetApp Workload Factory 워크플로는 AWS API를 통해 노출되지 않는 ONTAP 네이티브 작업을 필요로 합니다. Workload Factory는 이러한 작업을 AWS 계정 경계 내에서 수행할 수 있도록 두 가지 실행 옵션을 제공합니다. 하나는 VPC 내에서 ONTAP 작업을 실행하는 Lambda 링크이고, 다른 하나는 EC2 인스턴스에서 아웃바운드 연결만 사용하는 NetApp Console Agent입니다. 두 옵션 모두 네트워크, 자격 증명 및 수명 주기 관련 결정을 보안 모델 내에서 유지하면서 필요한 ONTAP 작업을 수행할 수 있도록 지원합니다.
+
+
+
+[[execution-options]]
+== 실행 옵션
+
+Lambda 링크 (VPC 내 AWS Lambda):: ONTAP를 공개적으로 노출하지 않고 VPC 내에서 ONTAP REST 및 읽기 전용 ONTAP CLI 진단을 실행합니다.
+NetApp 콘솔 에이전트(VPC 내 EC2 인스턴스, 아웃바운드 전용):: 에이전트가 아웃바운드 연결을 시작하고 Workload Factory가 에이전트로 인바운드 연결을 시작하지 않는 프록시된 ONTAP 작업을 실행합니다.
+
+
+
+
+[[security-considerations]]
+== 보안 고려 사항
+
+* 네트워크 경계: 필요한 아웃바운드 포트(443/22) 및 목적지를 확인하십시오.
+* 자격 증명 경계: ONTAP 자격 증명을 Workload Factory에 저장(봉투 암호화)할지 또는 AWS Secrets Manager에서 참조할지 결정합니다.
+* 감사 가능성: 구성 요소 활동 및 오류에 대한 운영 기록을 확인합니다.
+* 수명주기 관리: 업데이트 및 삭제가 어떻게 이루어지는지 확인합니다.
+
+
+
+
+[[related-information]]
+== 관련 정보
+
+* link:lambda-link-overview.html["NetApp Workload Factory의 Lambda 링크 개요"]
+* link:connectivity-trust-paths.html["NetApp Workload Factory의 연결 및 신뢰 경로"]
+* link:encryption-key-management.html["NetApp Workload Factory용 암호화 및 키 관리"]
+

@@ -1,0 +1,100 @@
+---
+settings:
+  name: Information Security for Workload Factory
+  internal:
+    pdf_enabled: true
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+  langs: ko-kr,us-en,de-de,es-es,fr-fr,it-it,pt-br,ja-jp,zh-cn,zh-tw
+sidebar:
+  entries:
+  - title: Workload Factory의 정보 보안에 대해 알아보십시오.
+    url: "/learn-about-workload-factory-infosec.html"
+  - title: 보안 모델 및 책임
+    entries:
+    - title: 보안 모델 개요
+      url: "/security-model.html"
+    - title: 공동 책임 범위
+      url: "/shared-responsibility-boundaries.html"
+    - title: 온보딩 보안 워크플로
+      url: "/onboarding-security-workflow.html"
+    - title: 규정 준수 및 보안 상태
+      url: "/compliance-security-posture.html"
+  - title: 아키텍처 및 연결성
+    entries:
+    - title: 연결성 및 신뢰 경로
+      url: "/connectivity-trust-paths.html"
+    - title: ONTAP 실행 옵션
+      url: "/ontap-execution-options.html"
+  - title: 신원 확인, 자격 증명 및 최소 권한
+    entries:
+    - title: AWS 계정 연동
+      url: "/aws-account-integration.html"
+    - title: AWS 자격 증명 흐름
+      url: "/aws-credential-flow.html"
+    - title: 자격증명 보존
+      url: "/credential-retention.html"
+    - title: 자격 증명 유형
+      url: "/credential-types.html"
+    - title: 자격 증명 저장 옵션
+      url: "/credential-storage-options.html"
+    - title: 최소 권한 요구 사항
+      url: "/least-privilege-permissions.html"
+    - title: CloudWatch 모니터링 권한
+      url: "/cloudwatch-monitoring-permissions.html"
+  - title: 데이터 거버넌스, 개인정보 보호 및 라이프사이클
+    entries:
+    - title: 데이터 처리 및 상주
+      url: "/data-handling-residency.html"
+    - title: 암호화 및 키 관리
+      url: "/encryption-key-management.html"
+    - title: 계정 삭제
+      url: "/account-deletion.html"
+  - title: 관찰 가능성(로그, 메트릭, 원격 측정)
+    entries:
+    - title: 관찰 가능성 개요
+      url: "/observability-overview.html"
+    - title: 측정 지표 및 원격 측정 참조
+      url: "/metrics-telemetry.html"
+  - title: 생성형 AI 보안 제어
+    entries:
+    - title: AI 제어 개요
+      url: "/ai-controls-overview.html"
+    - title: AI 진단을 위한 Amazon Bedrock 옵트인
+      url: "/amazon-bedrock-opt-in.html"
+    - title: AI 툴 경계
+      url: "/ai-tool-boundaries.html"
+    - title: AI 모델 매개변수 및 청구
+      url: "/ai-model-parameters-billing.html"
+    - title: Ask Me AI 어시스턴트
+      entries:
+      - title: Ask Me 보안 아키텍처
+        url: "/ask-me-security-architecture.html"
+      - title: Ask Me 액세스 제어
+        url: "/ask-me-access-control.html"
+      - title: Ask Me 실행 모드
+        url: "/ask-me-execution-modes.html"
+      - title: Ask Me 개인 정보 보호 및 가용성
+        url: "/ask-me-privacy-availability.html"
+  - title: ONTAP 운영 및 Lambda 링크(고객 VPC 구성 요소)
+    entries:
+    - title: Lambda 링크 개요
+      url: "/lambda-link-overview.html"
+    - title: Lambda 링크 포트 및 호출
+      url: "/lambda-link-ports-calls.html"
+    - title: Lambda 링크 IAM 권한
+      url: "/lambda-link-iam-permissions.html"
+    - title: Lambda 링크 수명 주기
+      url: "/lambda-link-lifecycle.html"
+  - title: 지식 및 지원
+    entries:
+    - title: 지원 등록
+      url: "/register-support.html"
+    - title: 도움말 보기
+      url: "/get-help.html"
+  - title: 법적 고지
+    url: "/legal-notices.html"
+product-family:
+  name: NetApp Workload Factory
+  repo: workload-family

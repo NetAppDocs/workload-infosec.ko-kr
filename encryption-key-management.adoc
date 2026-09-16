@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: encryption-key-management.html 
+keywords: encryption, key management, AWS KMS, encryption at rest, envelope encryption, FSx for ONTAP, credential protection, kms CreateGrant 
+summary: NetApp Workload Factory는 저장 시 암호화를 사용하며 Workload Factory 및 AWS 서비스 전반에 걸쳐 명확한 암호화 키 관리 책임을 정의합니다. 
+---
+= NetApp Workload Factory용 암호화 및 키 관리
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 저장 시 암호화를 사용하며 Workload Factory 및 AWS 서비스 전반에 걸쳐 명확한 키 관리 책임을 정의합니다. Amazon FSx for NetApp ONTAP 파일 시스템의 경우, 사용자가 직접 AWS KMS 키를 선택하거나 AWS에서 관리하는 기본 키를 사용할 수 있으며, FSx for ONTAP는 해당 키를 사용하여 암호화 작업을 수행합니다. Workload Factory는 또한 봉투 암호화를 사용하여 저장된 ONTAP 자격 증명을 보호합니다.
+
+
+
+[[kms-encryption-at-rest-scope-for-fsx]]
+== FSx용 KMS 저장 데이터 암호화 범위
+
+Workload Factory를 통해 FSx for ONTAP 파일 시스템을 생성할 때, 선택적으로 저장 데이터 암호화를 위한 자체 AWS KMS 키를 지정할 수 있습니다. 키를 지정하지 않으면 Workload Factory는 AWS에서 관리하는 기본 FSx 키를 사용합니다.
+
+암호화된 것은 무엇입니까?:: FSx for ONTAP 파일 시스템을 지원하는 기본 EBS 볼륨에 저장된 모든 데이터(AWS FSx 저장 데이터 암호화).
+키 소유권:: KMS 키는 AWS 계정에 있습니다.
+키 선택 및 사용에 필요한 권한:: Workload Factory에 필요한 사항:
++
+--
+* `kms:DescribeKey`
+* `kms:ListKeys`
+* `kms:ListAliases`
+* `kms:CreateGrant` (FSx for ONTAP 서비스에서 키를 사용할 수 있도록 하기 위함)
+
+
+--
+주요 액세스 패턴:: Workload Factory는 KMS 키를 사용하여 데이터를 직접 암호화하거나 복호화하지 않습니다. 파일 시스템 생성 중에 Amazon FSx for NetApp ONTAP API로 키 ID를 전달하며, Amazon FSx for NetApp ONTAP이 암호화 작업을 수행합니다.
+
+
+
+
+[[credential-protection-service-side-envelope-encryption]]
+== 자격 증명 보호(서비스 측 봉투 암호화)
+
+Workload Factory를 통해 ONTAP 자격 증명(관리자 암호)을 저장할 때, 해당 자격 증명은 저장하기 전에 봉투 암호화를 사용하여 보호됩니다.
+
+암호화 방식:: 자격 증명 레코드당 고유한 데이터 암호화 키(DEK)를 사용하는 AES-256-CBC입니다.
+봉투 암호화 흐름::
++
+--
+. 자격 증명마다 고유한 256비트 DEK가 생성됩니다.
+. DEK는 자격 증명(비밀번호)을 암호화합니다.
+. DEK 자체는 루트 키로 암호화되어 암호화된 자격 증명과 함께 저장됩니다.
+. 평문 DEK는 절대 저장되지 않습니다.
+
+
+--
+암호화 컨텍스트:: 각 데이터 키는 특정 자격 증명 레코드에 암호학적으로 연결되어 있어 레코드 간 키 재사용을 방지합니다.
+대안: AWS Secrets Manager:: 암호화된 암호를 서비스에 저장하는 대신, ONTAP 자격 증명을 사용자 계정의 AWS Secrets Manager에 저장할 수 있습니다. Workload Factory는 암호를 보거나 저장하지 않으며, Secrets Manager ARN을 Lambda 링크로 전달하여 VPC 내에서 런타임에 암호를 검색합니다.
+
+
+
+NOTE: GovCloud 계정에는 AWS Secrets Manager가 필요합니다.

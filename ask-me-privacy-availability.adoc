@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: ask-me-privacy-availability.html 
+keywords: Ask Me privacy, data handling, ephemeral storage, availability, multi-model fallback, audit logging, knowledge base content, feedback data, isolation controls 
+summary: NetApp Workload Factory에서 Ask Me 개인 정보 보호 제어는 데이터 노출을 제한하고, 세션 처리를 격리하며, 사용자 상호 작용에 대한 개인 정보 보호 경계를 유지합니다. 
+---
+= NetApp Workload Factory용 Ask Me 개인 정보 보호 및 가용성
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory의 Ask Me 개인정보 보호 제어는 데이터 노출을 제한하고, 세션 처리를 격리하며, 사용자 상호 작용에 대한 개인정보 보호 경계를 유지합니다. 사용자의 입력은 관리형 AI 서비스에서 처리되며, 이 서비스는 해당 입력을 기본 모델 학습이나 개선에 사용하지 않습니다. 검색된 운영 데이터는 세션 기간 동안 임시 메모리 저장소에 보관되며 영구 저장되거나 공유되지 않습니다. 여러 클라우드 지역에 걸쳐 있는 멀티 모델 폴백 체인은 기본 모델의 성능 저하 또는 사용 불가 시에도 가용성을 보장하며, 폴백 모델에도 동일한 보안 제어가 적용됩니다.
+
+
+
+[[data-handling-and-privacy]]
+== 데이터 처리 및 개인정보 보호
+
+* 프롬프트에 포함된 사용자 데이터: 사용자의 입력을 기본 모델 학습 또는 개선에 사용하지 않는 관리형 AI 서비스에서 처리됩니다.
+* 기술 자료 콘텐츠: 엄선되어 게시된 NetApp 문서만 포함되며, 사용자 데이터는 포함되지 않습니다.
+* 운영 데이터: 사용자가 자신의 리소스를 조회할 때만 검색되며, 세션 기간 동안 임시 메모리 저장소에 보관되고 영구 저장되거나 공유되지 않습니다.
+* 감사 로깅: 쿼리 메타데이터(익명 처리된 사용자 ID, 타임스탬프, 지속 시간)가 기록되며, 민감한 필드는 삭제됩니다.
+* 피드백 데이터: 별도로 저장되며 쿼리 ID에 연결되고, 익명화된 사용자 ID 외의 개인 식별 정보와는 연결되지 않습니다.
+
+
+
+
+[[availability-and-isolation-controls]]
+== 가용성 및 격리 제어
+
+Ask Me는 여러 클라우드 지역에 걸쳐 다중 모델 대체 체인을 사용합니다.
+
+기본 모델이 조절되거나 사용할 수 없는 경우, 시스템은 대체 모델로 페일오버할 수 있습니다.
+
+모든 모델은 동일한 보안 제어, 시스템 프롬프트 강화 및 격리 보장이 적용됩니다.

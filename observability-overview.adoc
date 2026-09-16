@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: observability-overview.html 
+keywords: observability, telemetry, Tracker, audit logging, OpenTelemetry, AI usage metering, AWS Timestream, operational records, monitoring 
+summary: 관찰 가능성 신호는 운영 모니터링, 문제 해결 및 조사에 도움이 됩니다. NetApp Workload Factory에서 관찰 가능성에는 서비스 동작, AI 사용량 및 Workload Factory를 통해 수행된 작업에 대한 가시성을 제공하는 메트릭, 원격 측정 데이터 및 운영 기록이 포함됩니다. 
+---
+= NetApp Workload Factory의 관찰 가능성에 대해 알아보십시오.
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+관찰 가능성 신호는 운영 모니터링, 문제 해결 및 조사에 도움이 됩니다. NetApp Workload Factory에서 관찰 가능성은 서비스 동작, AI 사용량 및 Workload Factory를 통해 수행된 작업에 대한 가시성을 제공하는 메트릭, 원격 측정 데이터 및 운영 기록을 포함합니다. 원격 측정 데이터와 운영 기록은 내부 모니터링 및 고객 대상 감사 가시성을 지원하며, Tracker를 통해 지원되는 작업의 진행 상황, 상태 및 세부 정보를 검토할 수 있습니다.
+
+
+
+[[telemetry-and-operational-records]]
+== 원격 측정 및 운영 기록
+
+Workload Factory는 다음과 같은 원격 측정 및 운영 기록 유형을 사용합니다.
+
+* OpenTelemetry 추적 데이터가 OTLP HTTP를 통해 SigNoz(내부 관찰 가능 도구)로 내보내졌습니다.
+* AI 사용량 측정(토큰 수, 모델 비용)은 AWS Timestream에 저장됩니다.
+* NetApp Console 감사 기록(작업 이름, 상태, 요청/응답 메타데이터, 타임스탬프)
+
+
+
+
+[[audit-logging-in-workload-factory]]
+== Workload Factory의 감사 로깅
+
+Workload Factory는 실행 중인 작업과 실행 시간을 모니터링할 수 있는 모니터링 기능인 Tracker를 제공합니다. Tracker를 사용하면 FSx for ONTAP, 자격 증명 및 링크 작업의 진행 상황과 상태를 추적하고, 작업 및 하위 작업에 대한 세부 정보를 검토하고, 문제 또는 오류를 진단할 수 있습니다.
+
+트래커에서는 다양한 작업을 수행할 수 있습니다. 기간(최근 24시간, 7일, 14일 또는 30일), 작업량, 상태 및 사용자별로 작업을 필터링할 수 있고, 검색 기능을 사용하여 작업을 찾을 수 있으며, 작업 테이블을 CSV 파일로 다운로드할 수 있습니다.
+
+* link:https://docs.netapp.com/us-en/workload-fsx-ontap/monitor-operations.html["Workload Factory에서 Tracker를 사용하여 작업 모니터링"^]
+
+
+
+
+[[related-information]]
+== 관련 정보
+
+* link:metrics-telemetry.html["NetApp Workload Factory의 메트릭 및 원격 측정"]
+

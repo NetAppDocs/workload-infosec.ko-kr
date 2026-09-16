@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: aws-account-integration.html 
+keywords: AWS account integration, sts assume role, IAM role, external ID, temporary credentials, cross-account access, confused deputy attack, role trust policy, onboarding 
+summary: Workload Factory는 AWS sts AssumeRole을 사용하여 AWS 계정에 대한 임시 자격 증명을 얻으므로 서비스에 장기적인 AWS 액세스 키가 저장되지 않습니다. 
+---
+= NetApp Workload Factory용 AWS 계정 통합
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Workload Factory는 AWS `sts:AssumeRole`를 사용하여 사용자의 AWS 계정에 대한 임시 자격 증명을 가져오므로, 장기 AWS 액세스 키는 서비스에 저장되지 않습니다. 온보딩 과정에서 Workload Factory가 승인된 AWS API 작업에 사용할 수 있는 IAM 역할을 구성하며, 외부 ID를 사용하여 무단 계정 간 액세스를 방지합니다. Workload Factory는 런타임에 이렇게 생성된 단기 자격 증명을 사용하며, AWS는 각 세션이 종료된 후 해당 자격 증명을 자동으로 만료시킵니다.
+
+
+
+[[aws-account-configuration]]
+== AWS 계정 구성
+
+Workload Factory가 AWS 계정에 액세스할 수 있도록 하려면 다음을 수행하십시오.
+
+. AWS 계정에 IAM 역할을 배포합니다(CloudFormation 사용 또는 수동으로).
+. 역할 신뢰 정책이 Workload Factory의 서비스 주체가 외부 ID를 통해 해당 역할을 수임할 수 있도록 허용하는지 확인하십시오.
+. 고객과 NetApp Workload Factory 간에만 공유되는 고유한 비밀 식별자(UUID v4)로 외부 ID를 사용하십시오.
++
+이를 IAM 역할 신뢰 정책의 조건으로 포함시키세요(`sts:ExternalId`).
+
++
+외부 ID는 혼동을 유발하는 대리인 공격을 방지합니다. 교차 계정 액세스 모델에서 공격자가 고객의 역할 ARN을 발견하더라도 해당 외부 ID가 없으면 해당 역할을 수임할 수 없습니다. AWS는 타사 교차 계정 액세스에 이 패턴을 권장합니다. 자세한 내용은 AWS IAM 설명서 페이지 link:https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html["타사가 소유한 AWS 계정에 대한 액세스"^]를 참조하십시오.
+
++
+외부 ID는 자격 증명 등록 과정에서 한 번 생성되어 역할 ARN과 함께 암호화된 상태로 Workload Factory 데이터베이스에 저장됩니다.
+
+. Workload Factory에 역할 ARN과 외부 ID를 등록합니다.
+
+
+
+
+[[runtime]]
+== 런타임
+
+런타임 시 Workload Factory는 사용자의 IAM 역할을 사용하여 각 AWS API 작업에 필요한 단기 자격 증명을 얻습니다.
+
+. Workload Factory는 사용자의 역할 ARN과 외부 ID를 사용하여  `sts:AssumeRole`을(를) 호출합니다.
+. AWS는 임시 자격 증명(액세스 키, 비밀 키 및 세션 토큰)을 반환합니다.
+. Workload Factory는 계정의 AWS API 작업에 임시 자격 증명을 사용합니다.
+. 자격 증명은 자동으로 만료됩니다(기본값은 1시간).
+

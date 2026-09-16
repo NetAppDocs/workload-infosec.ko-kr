@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: amazon-bedrock-opt-in.html 
+keywords: Amazon Bedrock, AI diagnostics, opt-in, inference profile, IAM permissions, Lambda link, SSH 
+summary: NetApp Workload Factory AI 진단은 Amazon Bedrock을 사용하여 이벤트를 분석하며, 이 기능은 기본적으로 활성화되어 있습니다. 
+---
+= Amazon Bedrock에서 NetApp Workload Factory AI 진단 옵트인
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory의 AI 진단은 Amazon Bedrock을 사용하여 이벤트를 분석하며, 이 기능은 기본적으로 활성화되어 있습니다. Workload Factory에서 선택한 Bedrock 모델을 호출하고 진단 데이터를 수집하려면 IAM 권한, 추론 프로필, 그리고 SSH 기능을 갖춘 연결된 Lambda 링크를 구성해야 합니다. 이러한 구성 요소 중 하나라도 누락되었거나 Bedrock 구성이 제거되면 AI 진단을 사용할 수 없게 됩니다.
+
+AI 진단은 기본적으로 활성화되어 있습니다.
+
+
+
+[[before-you-begin]]
+== 시작하기 전에
+
+* 계정에 AWS Bedrock 추론 프로필이 포함되어 있는지 확인하십시오.
+* 진단 데이터 수집을 위해 SSH 기능이 있는 연결된 Lambda 링크를 보유합니다.
+
+
+
+
+[[steps]]
+== 단계
+
+. IAM 역할에서 Bedrock 권한을 부여합니다.
++
+** `bedrock:InvokeModel`
+** `bedrock:InvokeModelWithResponseStream`
+** `bedrock:ListInferenceProfiles`
+** `bedrock:GetInferenceProfile`
+
+
+. Workload Factory 설정에서 추론 프로파일 ARN을 구성하십시오.
+
+
+필수 구성 요소 중 하나라도 누락된 경우 시스템은 누락된 구성 요소를 구체적으로 보고하고 AI 기능은 비활성화된 상태로 유지됩니다.
+
+
+
+[[disable-ai-diagnostics]]
+== AI 진단 비활성화
+
+AI 진단을 비활성화하려면:
+
+* IAM 역할에서 Bedrock 권한을 제거하거나
+* Workload Factory 설정에서 Bedrock 구성을 삭제합니다.
+
+
+AI 진단을 즉시 사용할 수 없게 되며, 잔여 데이터 처리는 발생하지 않습니다.
+
+
+
+[[region-and-cross-region-inference-profiles]]
+== 지역 및 지역 간 추론 프로필
+
+Bedrock 추론은 추론 프로필에 지정된 AWS 리전에서 실행됩니다. 교차 리전 추론 프로필을 사용하는 경우, AWS는 표준 AWS Bedrock 동작에 따라 프로필 구성에 있는 모든 리전으로 요청을 라우팅할 수 있습니다. 데이터는 AWS 인프라를 벗어나지 않습니다.

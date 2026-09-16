@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: ask-me-execution-modes.html 
+keywords: Ask Me execution modes, tool execution safeguards, ephemeral data sandbox, read-only query enforcement, tool call auditability, output controls, token limit, session scope 
+summary: Workload Factory는 Ask Me에 대해 서로 다른 보안 및 개인 정보 보호 특성을 가진 여러 실행 모드를 제공합니다. 
+---
+= NetApp Workload Factory의 Ask Me 실행 모드
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 Ask Me에 대해 서로 다른 보안 및 개인 정보 보호 특성을 가진 여러 실행 모드를 제공합니다. Ask Me가 툴 통합을 사용하는 경우(예: 고객의 Workload Factory 리소스를 쿼리하는 경우), 툴 실행은 계층화된 보안 조치를 통해 제어됩니다. 툴을 사용한 실행은 인증된 사용자의 권한 범위 내에서 작동하며 각 작업의 지속 시간과 범위에 제한이 적용됩니다. 검색된 데이터는 외부 액세스가 차단되는 임시 세션 샌드박스에 저장되며 세션이 종료되면 삭제됩니다. 독립적인 프롬프트 및 코드 제어를 통해 읽기 전용 쿼리가 적용되며, 감사 기록은 민감한 값이 삭제된 상태로 툴 활동을 기록합니다.
+
+
+
+[[tool-execution-safeguards]]
+== 툴 실행 보호 장치
+
+* 권한 범위 툴은 인증된 사용자의 권한 내에서 작동합니다.
+* 툴 실행 시간 초과는 장시간 실행되는 작업을 제한합니다.
+* 임시 데이터 샌드박스는 툴로 검색된 데이터를 세션 범위 내에 저장하고, 외부 액세스, 파일 I/O, 네트워크 호출 및 엔진 수준에서의 확장 프로그램 로딩을 차단하며, 세션이 종료되면 소멸됩니다.
+* 읽기 전용 쿼리 강제 적용은 엄격한 허용 목록을 통해 생성된 쿼리의 유효성을 검사합니다.
+* 프롬프트 적용 보안과 코드 적용 보안은 독립적으로 적용됩니다.
+* 툴 호출 감사 기능은 툴 이름, 매개변수, 타임스탬프 및 결과 상태를 로깅하며, 민감한 값은 스크러빙됩니다.
+
+
+
+
+[[output-controls]]
+== 출력 제어
+
+* 토큰 제한 시행
+* 분류/보안 중요 작업에 대한 결정론적 출력(온도 0)
+* 조기 종료 및 정리 기능을 갖춘 스트리밍
+

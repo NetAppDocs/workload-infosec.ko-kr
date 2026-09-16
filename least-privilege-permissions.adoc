@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: least-privilege-permissions.html 
+keywords: infosec, security, data handling, data retention, data collection, permissions, credentials, iam, assume role, least privilege, compliance, soc 2, govcloud, amazon bedrock, lambda, link, fsx for ontap, logging, audit, access control, onboarding, hardening 
+summary: NetApp Workload Factory는 정보 보안 및 데이터 보호 관행을 중요하게 생각하며, 최소 권한 구성 및 잠재적인 보안 강화에 대한 지침을 제공하여 데이터 처리 방식과 액세스 요구 사항에 중점을 둡니다. 
+---
+= NetApp Workload Factory의 최소 권한 권한 계층
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+특정 리소스(ARN)에 대한 액세스 제한, 태그 및 CIDR 범위 등 IAM 조건 적용 등 최소 권한 원칙에 맞춰 Workload Factory IAM 권한을 언제든지 제한할 수 있습니다.
+
+
+
+[[tiered-permission-model]]
+== 계층형 권한 모델
+
+Workload Factory는 최소 권한 원칙에 기반한 계층형 권한 모델을 사용합니다. AWS 자격 증명을 추가할 때 활성화할 기능 계층을 선택할 수 있습니다. 읽기 전용 검색으로 시작하여 필요에 따라 확장할 수 있습니다.
+
+Workload Factory는 외부 ID를 사용하여 STS를 통해 가정하는 AWS 계정의 IAM 역할을 통해 모든 권한을 부여합니다.
+
+Workload Factory는 인라인 세션 정책을 사용하여 각 API 호출의 범위를 더욱 세분화합니다.
+
+Workload Factory 콘솔의 AI 챗봇 기능인 _Ask Me_는 제한 옵션을 제안하고 AWS에 적용할 업데이트된 정책을 생성하여 권한을 안전하게 세분화할 수 있도록 지원합니다.
+
+
+
+[[granting-permissions]]
+== 권한 부여
+
+Workload Factory에 AWS 자격 증명을 추가할 때 활성화할 권한 계층을 선택할 수 있습니다. 계층은 언제든지 활성화 또는 비활성화할 수 있습니다.
+
+등급은 누적됩니다. 상위 등급을 활성화하면 하위 등급도 자동으로 모두 활성화됩니다.
+
+
+
+[[security-controls]]
+== 보안 제어
+
+* 외부 ID(혼동된 대리인 보호)
+* 작업별 세션 정책(요청당 최소 권한)
+* 태그 기반 조건(보안 그룹 수정은 Workload Factory에서 생성된 리소스로 제한됨)
+* 비밀 ARN 범위 지정(Secrets Manager 액세스 제한 대상 `FSxSecret*`)
+* 런타임 권한 유효성 검사(대상 해결을 위해 누락된 작업/리소스가 보고됨)
+
+
+
+
+[[permissions-documentation]]
+== 권한 문서
+
+Workload Factory 권한에 대한 주요 참조는 Workload Factory 설정 및 관리 설명서의 link:https://docs.netapp.com/us-en/workload-setup-admin/permissions-reference.html["권한 참조"^]입니다. 스토리지 IAM 정책에서 권한을 제거할 경우 발생하는 영향에 대한 정보는 이 참조에서 확인할 수 있습니다.

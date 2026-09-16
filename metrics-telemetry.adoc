@@ -1,0 +1,166 @@
+---
+sidebar: sidebar 
+permalink: metrics-telemetry.html 
+keywords: metrics, telemetry, CloudWatch metrics, volume-level metrics, file system-level metrics, computed metrics, throughput, retention, DynamoDB 
+summary: NetApp Workload Factory는 볼륨 수준 및 파일 시스템 수준의 메트릭을 수집하여 AWS CloudWatch에 저장함으로써 스토리지 성능 및 용량에 대한 운영 가시성을 제공합니다. 
+---
+= NetApp Workload Factory의 메트릭 및 원격 측정
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 볼륨 수준 및 파일 시스템 수준의 메트릭을 수집하여 AWS CloudWatch에 저장함으로써 스토리지 성능 및 스토리지 용량에 대한 운영 가시성을 제공합니다. 처리량 등 계산된 메트릭은 이러한 수집된 값을 기반으로 생성됩니다. 메트릭 정의, 수집 주기, 새로 고침 동작 및 보존 기간에 대한 자세한 내용을 확인하세요.
+
+
+
+[[metrics-included]]
+== 포함된 지표
+
+NetApp Workload Factory는 운영 로그 및 이벤트에 대해 다음과 같은 메트릭을 사용합니다.
+
+* 볼륨 수준 CloudWatch 메트릭(볼륨별로 수집됨)
+* 파일 시스템 수준의 CloudWatch 메트릭(파일 시스템별로 수집됨)
+* 계산된 지표
+* 수집 일정 및 보존
+
+
+
+
+[[about-operational-metrics]]
+== 운영 지표에 관하여
+
+계산된 지표는 다음 공식을 사용합니다.
+
+* 처리량(바이트/초) = (NetworkSentBytes + NetworkReceivedBytes) / 기간
+
+
+새로 고침 동작:
+
+* 볼륨 및 클러스터 메트릭은 12시간마다 새로 고쳐집니다.
+* 지연 시간 측정값은 20분마다 갱신됩니다.
+* DynamoDB 항목은 14일 후 자동으로 만료됩니다.
+
+
+
+
+[[about-telemetry-data-collection]]
+== 원격 측정 데이터 수집 정보
+
+* OpenTelemetry 추적 데이터가 OTLP HTTP를 통해 SigNoz(내부 관찰 가능 도구)로 내보내졌습니다.
+* AI 사용량 측정(토큰 수, 모델 비용)은 AWS Timestream에 저장됩니다.
+* NetApp Console 감사 기록(작업 이름, 상태, 요청/응답 메타데이터, 타임스탬프)
+
+
+
+
+[[volume-level-cloudwatch-metrics-collected-per-volume]]
+== 볼륨 수준 CloudWatch 메트릭(볼륨별로 수집됨)
+
+[cols="2,2,1,3"]
+|===
+| 메트릭 | AWS CloudWatch 이름 | 단위 | 측정하는 것 
+
+
+| 볼륨 스토리지 용량 | StorageCapacity | 바이트 | 총 프로비저닝된 용량 
+
+
+| 사용된 스토리지 | StorageUsed | 바이트 | 실제 데이터 저장됨 
+
+
+| 읽은 데이터 바이트 | DataReadBytes | 바이트 | 읽기 처리량 
+
+
+| 데이터 쓰기 바이트 | DataWriteBytes | 바이트 | 쓰기 처리량 
+
+
+| 데이터 읽기 작업 | DataReadOperations | 개수 | 읽기 IOPS 
+
+
+| 데이터 쓰기 작업 | DataWriteOperations | 개수 | 쓰기 IOPS 
+
+
+| 메타데이터 작업 | MetadataOperations | 개수 | 메타데이터 IOPS 
+
+
+| 데이터 읽기 작업 시간 | DataReadOperationTime | 초 | 읽기 지연 시간 
+
+
+| 데이터 쓰기 작업 시간 | DataWriteOperationTime | 초 | 쓰기 지연 시간 
+
+
+| 메타데이터 작업 시간 | MetadataOperationTime | 초 | 메타데이터 지연 시간 
+|===
+
+
+[[file-system-level-cloudwatch-metrics]]
+== 파일 시스템 수준의 CloudWatch 지표
+
+[cols="2,2,1,3"]
+|===
+| 메트릭 | AWS CloudWatch 이름 | 단위 | 측정하는 것 
+
+
+| SSD 스토리지 용량 | StorageCapacity | 바이트 | 총 SSD 계층 용량 
+
+
+| SSD 스토리지 사용 | StorageUsed(SSD 계층) | 바이트 | SSD 계층 소비량 
+
+
+| 용량 풀 사용됨 | StorageUsed(용량 풀) | 바이트 | 용량 풀 소비 
+
+
+| CPU 사용률 | CPUUtilization | 퍼센트 | 파일 서버 CPU 
+
+
+| SSD 용량 활용률 | StorageCapacityUtilization | 퍼센트 | SSD 티어 사용률 
+
+
+| 네트워크 처리량 활용 | NetworkThroughputUtilization | 퍼센트 | 네트워크 활용률 
+
+
+| 디스크 IOPS 사용률 | DiskIopsUtilization | 퍼센트 | 디스크 IOPS 사용률 
+
+
+| 디스크 처리량 활용률 | FileServerDiskThroughputUtilization | 퍼센트 | 디스크 처리량 활용률 
+
+
+| 디스크 IOPS 사용률(서버) | FileServerDiskIopsUtilization | 퍼센트 | 서버 디스크 IOPS 사용률 
+
+
+| 스토리지 효율성 절감 | StorageEfficiencySavings | 바이트 | 효율성으로 공간 절약 
+
+
+| 네트워크 수신됨 | NetworkReceivedBytes | 바이트 | 인바운드 네트워크 
+
+
+| 네트워크 전송됨 | NetworkSentBytes | 바이트 | 아웃바운드 네트워크 
+|===
+
+
+[[collection-schedule-and-retention]]
+== 수집 일정 및 보존
+
+[cols="1,1,1,1,1"]
+|===
+| 시간 범위 | 수집 기간 | 데이터 포인트 | 스토리지 | 보유 
+
+
+| 1일 | 24분 | ~60 | DynamoDB | 14일(TTL) 
+
+
+| 1주일 | 약 2.8시간 | ~60 | DynamoDB | 14일(TTL) 
+
+
+| 1개월 | 12시간 | ~60 | DynamoDB | 14일(TTL) 
+
+
+| 3개월 | 약 1.5일 | ~60 | DynamoDB | 14일(TTL) 
+
+
+| 1년 | 약 6일 | ~60 | DynamoDB | 14일(TTL) 
+|===

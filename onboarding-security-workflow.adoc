@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: onboarding-security-workflow.html 
+keywords: onboarding, security workflow, IAM role, external ID, permission scoping, connectivity setup, AI diagnostics, Lambda link, trust configuration 
+summary: NetApp Workload Factory 온보딩을 통해 제품 사용을 시작하기 전에 AWS 환경에 대한 안전한 액세스 권한을 설정할 수 있습니다. 
+---
+= NetApp Workload Factory 온보딩 보안 워크플로
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory 온보딩은 제품 사용을 시작하기 전에 AWS 환경에 대한 안전한 액세스를 설정하는 과정입니다. 이 프로세스에는 AWS 신뢰 구성, 권한 범위 설정, 연결 설정, 관찰 가능성 검증 및 선택적 AI 진단 활성화가 포함됩니다.
+
+
+
+[[step-1-decide-your-onboarding-posture]]
+== 1단계: 온보딩 방식 결정
+
+* AWS 계정 및 환경 경계(예: 프로덕션과 비프로덕션 분리)를 식별합니다.
+* 필요한 워크플로(읽기 전용 검색, 프로비저닝, ONTAP 네이티브 작업)를 식별합니다.
+* 워크플로 요구 사항에 따라 VPC 실행 구성 요소(예: Lambda 링크)를 배포할지 여부를 결정합니다.
+* AI 진단 활성화 여부를 결정합니다(기본적으로 활성화됨).
+
+
+.관련 정보
+* link:credential-types.html["자격 증명 유형"]
+* link:lambda-link-overview.html["Lambda 링크 개요"]
+* link:ai-controls-overview.html["AI 제어 개요"]
+
+
+
+
+[[step-2-establish-aws-trust-and-access]]
+== 2단계: AWS 신뢰 및 액세스 설정
+
+. AWS 계정에 IAM 역할을 배포합니다.
+. 신뢰 정책에서 외부 ID를 사용하여 게이트 역할 가정을 설정합니다.
+. Workload Factory에 역할 ARN과 외부 ID를 등록합니다.
+
+
+.관련 정보
+link:aws-account-integration.html["AWS 계정 연동"]
+
+
+
+[[step-3-apply-least-privilege-permissions]]
+== 3단계: 최소 권한 권한 적용
+
+. 원하는 워크플로를 지원하는 최소 권한 등급을 선택하십시오.
+. 요청별 세션 정책이 수행 중인 작업으로만 작업을 제한하는지 확인합니다.
+
+
+.관련 정보
+link:least-privilege-permissions.html["NetApp Workload Factory의 최소 권한 권한 계층"].
+
+
+
+[[step-4-configure-connectivity-and-vpc-boundaries-as-needed]]
+== 4단계: 연결 및 VPC 경계 구성(필요한 경우)
+
+. AWS 엔드포인트에 필요한 네트워크 경로를 검증합니다.
+. ONTAP 네이티브 작업이 필요한 경우 VPC에 적절한 실행 옵션을 배포하고 유효성을 검사하십시오.
+
+
+.관련 정보
+* link:connectivity-trust-paths.html["NetApp Workload Factory의 연결 및 신뢰 경로"]
+* link:ontap-execution-options.html["NetApp Workload Factory용 ONTAP 실행 옵션"]
+
+
+
+
+[[step-5-verify-observability]]
+== 5단계: 관찰 가능성 검증
+
+. 측정 지표와 원격 측정 데이터가 예상대로 수집 및 보존되는지 확인하십시오.
+. 문제 해결 및 조사에 필요한 운영 기록에 접근할 수 있는지 확인하십시오.
+
+
+.관련 정보
+* link:observability-overview.html["NetApp Workload Factory의 관찰 가능성 개요"]
+* link:metrics-telemetry.html["NetApp Workload Factory의 메트릭 및 원격 측정"]
+
+
+
+
+[[step-6-enable-ai-diagnostics-optional]]
+== 6단계: AI 진단 활성화(선택 사항)
+
+AI 진단은 기본적으로 활성화되어 있습니다. 이 기능을 활성화하는 경우 필수 조건을 충족하는지 확인하고 범위 권한을 필요한 최소한으로 설정하십시오.
+
+.관련 정보
+* link:amazon-bedrock-opt-in.html["Bedrock에서 NetApp Workload Factory AI 진단 옵트인"]
+* link:ai-tool-boundaries.html["NetApp Workload Factory용 AI 툴 경계"]
+

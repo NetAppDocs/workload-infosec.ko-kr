@@ -1,0 +1,91 @@
+---
+sidebar: sidebar 
+permalink: learn-about-workload-factory-infosec.html 
+keywords: infosec, security, data handling, data retention, data collection, permissions, credentials, iam, assume role, least privilege, compliance, soc 2, govcloud, amazon bedrock, lambda, link, fsx for ontap, logging, audit, access control, onboarding, hardening 
+summary: NetApp Workload Factory는 정보 보안 및 데이터 보호 관행을 중요하게 생각하며, 최소 권한 구성 및 잠재적인 보안 강화에 대한 지침을 제공하여 데이터 처리 방식과 액세스 요구 사항에 중점을 둡니다. 
+---
+= NetApp Workload Factory의 정보 보안에 대해 알아보세요.
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+정보 보안은 NetApp Workload Factory 설계 및 운영의 핵심 요소입니다. 정보 보안, 클라우드 플랫폼 및 스토리지 팀은 이러한 세부 정보를 활용하여 기업 보안 요구 사항을 충족하는 방식으로 Workload Factory를 평가하고 도입할 수 있습니다.
+
+
+
+[[what-workload-factory-is]]
+== Workload Factory란 무엇입니까
+
+Workload Factory는 Amazon FSx for NetApp ONTAP를 사용하여 워크로드(예: 스토리지, VMware 마이그레이션, EDA 프로젝트, 데이터베이스 환경 등)를 최적화하고 관리하는 데 도움이 되도록 설계된 SaaS 수명 주기 관리 플랫폼입니다. 워크로드는 AWS에서 실행됩니다.
+
+Workload Factory는 AWS를 통해 기본적으로 제공되는 모든 FSx for ONTAP 작업에 대해 AWS API를 사용하고, 플랫폼에서 지원되지만 AWS API를 통해 기본적으로 제공되지 않는 Workload Factory 작업에 대해서는 ONTAP REST API를 사용합니다.
+
+
+
+[[core-security-principles-used-in-this-guide]]
+== 이 가이드에서 사용된 핵심 보안 원칙
+
+기밀 유지:: 신원 관리, 최소 권한 원칙, 암호화 및 네트워크 경계를 통해 무단 접근으로부터 데이터를 보호하십시오.
+무결성:: 권한 범위 설정, 변경 제어 및 감사 기능을 사용하여 시스템과 구성을 무단 또는 의도치 않은 변경으로부터 보호하십시오.
+가용성:: AWS의 복원력 있는 설계와 운영 모니터링을 통해 승인된 사용자가 서비스 및 워크로드에 액세스할 수 있도록 보장합니다.
+
+
+
+
+[[types-of-information-covered-in-this-guide]]
+== 이 가이드에서 다루는 정보 유형
+
+다음 섹션에서는 기업 보안 요구 사항을 충족하는 방식으로 Workload Factory를 평가하고 도입하는 데 도움이 되는 정보를 제공합니다.
+
+. 보안 모델 및 책임
++
+** link:security-model.html["보안 모델 개요"]
+** link:shared-responsibility-boundaries.html["공동 책임 범위"]
+
+
+. 아키텍처 및 연결성
++
+** link:connectivity-trust-paths.html["연결성 및 신뢰 경로"]
+** link:ontap-execution-options.html["ONTAP 실행 옵션"]
+
+
+. 신원 확인, 자격 증명 및 최소 권한
++
+** link:aws-account-integration.html["AWS 계정 연동"]
+** link:least-privilege-permissions.html["최소 권한 계층"]
+
+
+. 데이터 거버넌스, 개인정보 보호 및 라이프사이클
++
+** link:data-handling-residency.html["데이터 처리 및 상주"]
+** link:account-deletion.html["계정 삭제 체크리스트"]
+
+
+. 관찰 가능성 및 모니터링
++
+** link:metrics-telemetry.html["측정항목 및 원격 측정"]
+
+
+. AI 제어 및 VPC 구성 요소
++
+** link:ai-controls-overview.html["AI 제어 개요"]
+** link:lambda-link-overview.html["Lambda 링크 개요"]
+
+
+
+
+
+
+[[get-started-quickly]]
+== 빠르게 시작하기
+
+* 먼저 _보기, 계획 및 분석_(읽기 전용) 권한으로 시작하고 필요에 따라 권한을 확장하십시오.
+* AWS CloudTrail을 사용하여 `sts:AssumeRole` 통합 역할에 대한 활동을 검증하십시오.
+* Lambda 링크 또는 NetApp Console 에이전트 배포가 필요한 ONTAP 네이티브 작업이 필요한지 여부를 사전에 결정하십시오.
+* 생성형 AI가 허용되는지 여부와 거주지 제약 조건으로 인해 단일 지역 추론 프로필이 필요한지 여부를 사전에 결정하십시오.
+

@@ -1,0 +1,339 @@
+---
+sidebar: sidebar 
+permalink: data-handling-residency.html 
+keywords: data handling, data residency, data retention, configuration and metadata, operational logs, telemetry, KMS encryption, audit records, Redis cache 
+summary: NetApp Workload Factory는 서비스에서 처리하는 운영 데이터, 각 데이터 클래스가 보안 모델에 어떻게 적용되는지, 데이터 저장 위치, 보존 기간, 그리고 데이터가 고객 환경을 벗어나는지 여부를 설명하는 범주별로 데이터 처리를 구성합니다. 
+---
+= NetApp Workload Factory의 데이터 처리 및 상주
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 서비스에서 처리하는 운영 데이터, 각 데이터 클래스가 보안 모델에 어떻게 적용되는지, 데이터 저장 위치, 보존 기간, 그리고 데이터가 고객 환경 외부로 유출되는지 여부를 설명하는 범주별로 데이터 처리를 구성합니다. 주요 데이터 클래스에는 구성 및 메타데이터, 운영 로그 및 이벤트, 원격 측정 데이터가 포함됩니다. 보존되는 데이터에는 FSx for ONTAP 구성 스냅샷, 자격 증명 참조, AI 사용량 및 비용 데이터, 감사 기록, 단기 응답 캐시 등이 포함될 수 있습니다. 저장 및 처리 위치는 데이터 유형에 따라 다릅니다. 일부 정보는 고객의 AWS 계정에 유지되는 반면, 다른 운영 데이터는 NetApp 계정에 저장됩니다.
+
+
+
+[[data-classes-handled-by-workload-factory]]
+== Workload Factory에서 처리하는 데이터 클래스
+
+Workload Factory는 다음과 같은 데이터 클래스를 처리합니다.
+
+* 구성 및 메타데이터
+* 운영 로그 및 이벤트
+* 원격 측정
+
+
+
+
+[[data-classes-retained-by-workload-factory]]
+== Workload Factory에서 유지되는 데이터 클래스
+
+Workload Factory는 다음 데이터를 저장합니다.
+
+* FSx 구성 스냅샷(스캔할 때마다 새로 고쳐짐)
+* ONTAP 자격 증명 참조 또는 KMS 봉투 암호화로 암호화된 자격 증명 자료(선택한 자격 증명 모드에 따라 다름)
+* EDA 지표
+* CloudFormation 템플릿(7일 `Expires` 헤더)
+* AI 사용 및 비용 데이터
+* 감사 기록
+* TTL이 20분인 Redis 캐시(FSx 응답)
+
+
+
+
+[[where-information-is-kept]]
+== 정보가 보관되는 위치
+
+
+
+[[aws-account]]
+=== AWS 계정
+
+* ONTAP 관리자 암호는 AWS Secrets Manager에 저장됩니다.
+* Amazon Bedrock은 AWS 계정 내의 STS에서 위임한 역할을 통해 사용자의 추론 프로필 ARN을 사용하여 AI 추론(EMS 분석)을 처리합니다.
+
+
+
+
+[[netapp-account]]
+=== NetApp 계정
+
+* FSx 구성, 균형 조정 계획, ARP 구성 및 AI 사용 제한
+* 임시 AWS STS 자격 증명(Redis에 캐시됨), 응답 캐시, 잠금 및 배포 상태
+* CloudFormation/Terraform 템플릿, WAD 구성 설명자 및 압축 보고서
+* AI 사용량 측정 및 수집기 성능 지표
+* EDA 집계 지표
+* 작업 감사 추적
+* OpenTelemetry 추적
+
+
+
+
+[[region-considerations]]
+=== 지역적 고려사항
+
+* Amazon Bedrock 서비스를 이용할 수 있는 지역에 저장됩니다.
+* NetApp 내부는 `us-east-1` 및 `us-west-2`에서 운영됩니다.
+
+
+
+
+[[how-long-information-is-kept]]
+== 정보 보관 기간
+
+이 섹션에서는 보존 범주를 요약합니다. 자세한 값 및 정책 동작은 링크된 페이지를 참조하십시오.
+
+* 자격 증명 및 임시 AWS STS 자격 증명 보존: link:credential-retention.html["NetApp Workload Factory의 자격 증명 보존"]
+* 운영 지표 및 원격 측정 데이터 보존: link:metrics-telemetry.html["NetApp Workload Factory의 메트릭 및 원격 측정 참조"]
+* 감사 기록 보존: NetApp Console 보존 정책에 따라 관리됩니다(Workload Factory에서 제어하지 않음).
+
+
+
+
+[[what-information-leaves-the-vpc]]
+== VPC에서 어떤 정보가 유출됩니까?
+
+이 섹션에서는 송신 데이터 범주를 요약합니다. 프로토콜 수준 및 기능 수준의 자세한 내용은 링크된 페이지를 참조하십시오.
+
+
+
+[[management-plane-traffic-to-the-workload-factory-service]]
+=== Workload Factory 서비스로 향하는 관리 플레인 트래픽
+
+관리 작업의 경우 FSx 구성, 볼륨 메타데이터, 리소스 식별자 및 운영 명령은 HTTPS를 통해 Workload Factory 서비스 계층으로 전송됩니다.
+
+
+
+[[audit-records-to-the-netapp-console-audit-service]]
+=== NetApp Console 감사 서비스에 대한 감사 기록
+
+추적되는 모든 작업은 다음 정보를 전송합니다.
+
+* `accountId`
+* `actionName`
+* `status`
+* `resourceId`
+* `userId`
+* `requestData`
+* `responseData`
+* `timestamps`
+* `IP address`
+* `workspaceId`
+
+
+
+
+[[ai-analysis-traffic]]
+=== AI 분석 트래픽
+
+FSx for ONTAP 긴급 관리 시스템(EMS) 이벤트, 지연 데이터 및 AI 진단을 위해 제출된 오류 로그는 구성된 추론 프로필을 사용하여 AWS 계정을 통해 Amazon Bedrock으로 전송되므로 이러한 트래픽은 NetApp 시스템에 도달하지 않고 사용자 환경 내에 유지됩니다.
+
+AI 분석 트래픽에 대한 자세한 내용은 다음을 참조하십시오.
+
+* link:ai-controls-overview.html["NetApp Workload Factory의 AI 제어 개요"]
+* link:amazon-bedrock-opt-in.html["Bedrock에서 NetApp Workload Factory AI 진단 옵트인"]
+* link:ai-tool-boundaries.html["NetApp Workload Factory용 AI 툴 경계"]
+
+
+
+
+[[aws-service-api-traffic]]
+=== AWS 서비스 API 트래픽
+
+자세한 내용은 link:connectivity-trust-paths.html["NetApp Workload Factory의 연결 및 신뢰 경로"]을 참조하십시오.
+
+
+
+[[telemetry-and-metrics-collection]]
+=== 원격 측정 및 지표 수집
+
+link:metrics-telemetry.html["측정 지표 및 원격 측정 참조"]을(를) 참조하십시오.
+
+
+
+[[configuration-and-metadata-collection-scope]]
+== 구성 및 메타데이터 수집 범위
+
+
+
+[[file-system-level]]
+=== 파일 시스템 수준
+
+* 파일 시스템 구성(배포 유형 Gen1/Gen2, 처리량 용량, 스토리지 용량, 저장 유형)
+* 선호하는 서브넷, 보안 그룹, VPC 구성
+* KMS 암호화 키 메타데이터
+* 파일 시스템 태그
+* 파일 시스템 수명 주기 상태
+* 유지 관리 창 설정
+
+
+
+
+[[volume-level-comprehensive]]
+=== 볼륨 수준(종합)
+
+* 식별 및 상태: 볼륨 이름, UUID, 유형(rw/dp/ls), 스타일(FlexVol/FlexGroup), 상태(온라인/오프라인/제한됨), 생성 시간
+* 용량: 총 크기, 사용량, 사용 가능 용량, 물리적 사용량, 사용률, SSD 사용량, 용량 풀 사용량, 비활성 데이터 바이트/사용률
+* 계층화: 정책(all/auto/none/snapshot_only), 최소 냉각 기간
+* QoS: 할당된 QoS 정책 이름
+* NAS 구성: 접합 경로, 내보내기 정책 할당, UNIX 권한, 보안 스타일(unix/ntfs/mixed)
+* 스냅샷: 스냅샷 예약 크기/비율/사용량, 자동 삭제 설정
+* 데이터 효율성: 압축 유형/상태, 중복 제거, 압축률 향상, 공간 절약
+* 자동 크기 조정: 모드(grow/grow_shrink/off), 최소/최대 크기, 확대/축소 임계값
+* SnapLock: 유형(규정 준수/엔터프라이즈/비 SnapLock), 보존 기간(최소/최대/기본값), 자동 커밋 기간
+* 클론: 상위 볼륨/스냅샷/스토리지 VM, FlexClone, 분할 상태
+* 이노드/파일: 최대 가능 개수, 최대 설정 개수, 사용 개수
+* 암호화: 활성화/비활성화 상태
+* 액세스 시간: atime 업데이트 활성화/비활성화 및 업데이트 주기
+* SnapMirror: 보호 상태, 대상 유형(클라우드/ONTAP)
+* FlexGroup 리밸런싱: 불균형 비율, 최대 임계값
+* 볼륨 이동: 대상 애그리게이트, 이동 상태
+* FlexCache 엔드포인트 유형: 없음/캐시/원본
+* 태그: ONTAP 레벨 볼륨 태그
+
+
+
+
+[[snapshot-data]]
+=== 스냅샷 데이터
+
+* 스냅샷 이름, UUID, 생성 시간, 만료 시간
+* 크기(바이트)
+* SnapMirror 레이블
+* SnapLock 만료 및 잠금 상태
+* 상태 (유효/무효/부분적)
+* 사용자 댓글
+* 스냅샷 정책: 이름, 활성화 상태, 예약된 복사본(개수, 보존 기간, 예약 이름, 접두사, SnapMirror 레이블)
+
+
+
+
+[[export-policies]]
+=== 엑스포트 정책
+
+* 정책 이름, ID, 연결된 스토리지 VM
+* 규칙: 프로토콜 목록(NFS/CIFS/FlexCache), 클라이언트 일치 패턴, 읽기 전용 규칙, 읽기/쓰기 규칙, 관리자 권한 규칙, 규칙 인덱스/우선순위
+* SUID, 장치 생성, chown 모드, 익명 사용자 매핑, NTFS UNIX 보안 설정
+
+
+
+
+[[s3-access-points]]
+=== S3 액세스 포인트
+
+* 수명 주기 상태(사용 가능/생성 중/삭제 중/실패/잘못 구성됨)
+* 생성 시간, ARN, 별칭, 이름
+* 파일 소유자 사용자 및 유형(UNIX/WINDOWS)
+* 네트워크 구성(인터넷 vs VPC 액세스, VPC ID)
+* AWS 태그
+* 메타데이터 스캔 활성화, 저널링 활성화, CloudTrail ARN
+
+
+
+
+[[anti-ransomware-protection-arp]]
+=== 랜섬웨어 방지(ARP)
+
+Workload Factory는 구성 상태와 이벤트 세부 정보를 모두 수집합니다.
+
+* 볼륨별 상태(활성화/비활성화/dry_run/일시 중지)
+* 공격 확률 (없음/낮음/중간/높음)
+* 타임스탬프가 포함된 공격 보고서
+* 탐지 매개변수: 파일 확장자 임계값, 이름 변경률 급증 %, 엔트로피 증가율 급증 %, 파일 생성/삭제율 급증 %
+* 의심스러운 파일: 파일 경로, 파일 이름, 파일 형식, 의심 시간, 관련 볼륨
+
+
+
+
+[[replication-snapmirror]]
+=== 복제 / SnapMirror
+
+* 관계 UUID, 상태, 정상 상태
+* 소스 및 대상(스토리지 VM, 경로, 클러스터)
+* 전송 통계(전송된 바이트 수, 전송 시간, 종료 시간, 상태)
+* 정책(이름, 유형: 비동기/동기/지속적)
+* 스로틀 설정
+* 지연 시간
+* 비정상 이유(메시지 및 코드)
+* 현재 전송 오류
+
+
+
+
+[[igroups]]
+=== iGroups
+
+* 이름, UUID, 프로토콜(FCP/iSCSI/혼합), 운영 체제 유형
+* 시작자(IQN/WWPN), 연결 상태, 마지막 접속 시간
+* LUN 매핑(논리 장치 번호, LUN 세부 정보)
+
+
+
+
+[[luns]]
+=== LUN
+
+* 이름, UUID, 일련 번호, 운영 체제 유형, 활성화 상태
+* 크기, 사용 공간, 씬 프로비저닝 설정
+* 위치(볼륨, 노드, 논리 장치 경로)
+* 자동 삭제 설정
+* 컨테이너 상태, 매핑 상태, 읽기 전용 상태
+* QoS 정책
+* 성능 지표(IOPS, 지연 시간, 읽기/쓰기/총 처리량)
+* 일관성 그룹 멤버십
+
+
+
+
+[[flexcache]]
+=== FlexCache
+
+* 원본 볼륨/스토리지 VM/클러스터, 캐시 크기, 경로
+* 쓰기 백 활성화됨, DR 캐시 상태
+* 상대적 크기 구성
+* 디렉토리 경로 미리 채우기
+* 캐시와 오리진 간의 연결 상태
+
+
+
+
+[[storage-vm-level]]
+=== 스토리지 VM 수준
+
+* 이름, UUID, 상태(실행 중/중지됨), 하위 유형
+* 활성화/허용된 프로토콜(NFS, CIFS, iSCSI, FCP, NVMe, S3)
+* DNS 서버 및 도메인
+* 이름 서비스 스위치 구성(passwd, group, hosts 등)
+* IP 인터페이스(이름, IP 주소, 서비스)
+* 할당된 애그리게이트
+* 랜섬웨어 방지 기본 볼륨 상태
+* 공간 강제 설정
+* 피어 관계(애플리케이션, 상태, 원격 클러스터/스토리지 VM)
+
+
+
+
+[[aggregate-storage-level]]
+=== 애그리게이트/스토리지 레벨
+
+* 애그리게이트 이름, UUID, 상태, RAID 상태
+* 블록 스토리지: 디스크 개수, RAID 크기, 사용 가능/사용량/총 공간, 물리적 사용량
+* 클라우드 스토리지 사용
+* 효율성: 비율, 논리적 사용, 절감액
+* 암호화, 미러링, SnapLock 설정
+* 성능 지표(IOPS, 지연 시간, 처리량)
+
+
+
+
+[[utilization-metrics-eda]]
+=== 활용도 지표(EDA)
+
+* 데이터 수집 주기: 용량/처리량의 경우 12시간마다, 지연 시간의 경우 20분마다
+* 세분성: 시간 범위당 약 60개의 데이터 포인트로 정규화됨
+* 보존 및 저장 세부 정보: link:metrics-telemetry.html["측정 지표 및 원격 측정 참조"]
+

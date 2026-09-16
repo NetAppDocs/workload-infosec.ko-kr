@@ -1,0 +1,75 @@
+---
+indexpage:
+  title: NetApp Workload Factory의 정보 보안
+  summary: Workload Factory는 데이터 수집, 저장, 보존 및 접근 방식을 포함한 보안 및 데이터 보호 지침을 제공합니다. 이
+    자료를 활용하여 아키텍처, 권한 및 규정 준수 상태를 이해하고, 더욱 신속하고 일관된 보안 검토 및 온보딩 프로세스를 지원하십시오.
+  keywords: information security, data protection, NetApp, Workload Factory
+  lead: Workload Factory는 데이터 수집, 저장, 보존 및 접근 방식을 포함한 보안 및 데이터 보호 지침을 제공합니다. 이 자료를
+    활용하여 아키텍처, 권한 및 규정 준수 상태를 이해하고, 더욱 신속하고 일관된 보안 검토 및 온보딩 프로세스를 지원하십시오.
+  tiles:
+  - title: 시작하기
+    links:
+    - title: NetApp Workload Factory의 정보 보안에 대해 알아보세요.
+      url: "/learn-about-workload-factory-infosec.html"
+    - title: 온보딩 보안 워크플로
+      url: "/onboarding-security-workflow.html"
+  - title: 보안 및 연결성
+    links:
+    - title: 보안 모델 개요
+      url: "/security-model.html"
+    - title: 규정 준수 및 보안 상태
+      url: "/compliance-security-posture.html"
+    - title: 연결성 및 신뢰 경로
+      url: "/connectivity-trust-paths.html"
+  - title: 신원 확인, 자격 증명 및 최소 권한
+    links:
+    - title: AWS 자격 증명 흐름
+      url: "/aws-credential-flow.html"
+    - title: 자격 증명 유형
+      url: "/credential-types.html"
+    - title: 자격 증명 저장 옵션
+      url: "/credential-storage-options.html"
+    - title: 최소 권한 요구 사항
+      url: "/least-privilege-permissions.html"
+  - title: 데이터 거버넌스, 개인정보 보호 및 라이프사이클
+    links:
+    - title: 데이터 처리 및 상주
+      url: "/data-handling-residency.html"
+    - title: 암호화 및 키 관리
+      url: "/encryption-key-management.html"
+  - title: 관찰 가능성(로그, 메트릭, 원격 측정)
+    links:
+    - title: 관찰 가능성 개요
+      url: "/observability-overview.html"
+    - title: 측정 지표 및 원격 측정 참조
+      url: "/metrics-telemetry.html"
+  - title: 생성형 AI 보안 제어
+    links:
+    - title: AI 제어 개요
+      url: "/ai-controls-overview.html"
+    - title: AI 진단을 위한 Bedrock 옵트인
+      url: "/amazon-bedrock-opt-in.html"
+    - title: AI 툴 경계
+      url: "/ai-tool-boundaries.html"
+    - title: AI 모델 매개변수 및 청구
+      url: "/ai-model-parameters-billing.html"
+  - title: ONTAP 운영 및 Lambda 링크
+    links:
+    - title: Lambda 링크 개요
+      url: "/lambda-link-overview.html"
+    - title: Lambda 링크 IAM 권한
+      url: "/lambda-link-iam-permissions.html"
+  - title: 지식 및 지원
+    links:
+    - title: 지원 등록
+      url: "/register-support.html"
+    - title: 도움말 보기
+      url: "/get-help.html"
+  - title: 블로그 및 커뮤니티
+    links:
+    - title: NetApp Console
+      url: https://www.netapp.com/console
+    - title: NetApp Data Services
+      url: https://www.netapp.com/data-services/
+    - title: NetApp 커뮤니티
+      url: https://community.netapp.com/

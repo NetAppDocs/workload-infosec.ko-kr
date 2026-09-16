@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: register-support.html 
+keywords: support registration, register for support, support, nss account, add nss account 
+summary: NetApp 기술 지원으로 지원 케이스를 열려면 먼저 NetApp Support Site 계정을 Workload Factory에 추가하고 지원을 등록해야 합니다. 
+---
+= NetApp 지원에 등록
+:allow-uri-read: 
+:icons: font
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp 기술 지원으로 지원 케이스를 열려면 먼저 NetApp Support Site 계정을 Workload Factory에 추가하고 지원을 등록해야 합니다.
+
+NetApp Workload Factory 및 해당 스토리지 솔루션과 서비스에 대한 기술 지원을 받으려면 지원 등록이 필요합니다. Workload Factory와는 별도의 웹 기반 콘솔인 NetApp Console에서 지원을 등록해야 합니다.
+
+지원 등록을 한다고 해서 클라우드 공급자 파일 서비스에 대한 NetApp 지원이 활성화되는 것은 아닙니다. 클라우드 공급자 파일 서비스, 해당 인프라 또는 해당 서비스를 사용하는 솔루션과 관련된 기술 지원은 해당 제품의 Workload Factory 설명서에 있는 "도움 받기" 섹션을 참조하십시오.
+
+link:https://docs.netapp.com/us-en/storage-management-fsx-ontap/start/concept-fsx-aws.html#getting-help["Amazon FSx for ONTAP"^]
+
+
+
+[[support-registration-overview]]
+== 지원 등록 개요
+
+계정 ID 지원 구독(NetApp 콘솔의 지원 리소스 페이지에 있는 20자리 일련 번호 960xxxxxxxxx)을 등록하면 해당 ID가 단일 지원 구독 ID로 사용됩니다. 각 NetApp 계정 수준 지원 구독은 모두 등록해야 합니다.
+
+등록을 통해 지원 티켓 생성 및 자동 케이스 생성과 같은 기능을 사용할 수 있습니다. 등록은 아래 설명된 대로 NetApp Support Site(NSS) 계정을 NetApp Console에 추가하여 완료합니다.
+
+
+
+[[register-your-account-for-netapp-support]]
+== NetApp 지원을 위한 계정 등록
+
+지원을 등록하고 지원 권한을 활성화하려면 계정의 사용자 중 한 명이 NetApp Support Site 계정을 NetApp Console 로그인에 연결해야 합니다. NetApp 지원 등록 방법은 이미 NetApp Support Site(NSS) 계정이 있는지 여부에 따라 다릅니다.
+
+
+
+[[existing-customer-with-an-nss-account]]
+=== NSS 계정을 보유한 기존 고객
+
+NSS 계정을 보유한 NetApp 고객이라면 NetApp Console을 통해 지원을 등록하기만 하면 됩니다.
+
+.단계
+. Workload Factory 콘솔의 오른쪽 상단에서 *도움말 > 지원*을 선택하십시오.
++
+이 옵션을 선택하면 새 브라우저 탭에서 NetApp Console이 열리고 지원 대시보드가 로드됩니다.
+
+. NetApp Console 메뉴에서 *관리*를 선택한 다음 *자격 증명*을 선택합니다.
+. *사용자 자격 증명*을 선택합니다.
+. *NSS 자격 증명 추가*를 선택하고 NetApp 지원 사이트(NSS) 인증 프롬프트를 따르십시오.
+. 등록 절차가 성공적으로 완료되었는지 확인하려면 도움말 아이콘을 선택한 다음 *지원*을 선택하세요.
++
+*리소스* 페이지에 계정이 지원 서비스에 등록되어 있음을 확인할 수 있습니다.
+
++
+image:https://raw.githubusercontent.com/NetAppDocs/workload-family/main/media/screenshot-support-registration.png["계정 일련 번호와 녹색 체크박스, 그리고 \"지원 등록 완료\"라는 문구가 표시된 스크린샷입니다."]
+
++
+다른 NetApp Console 사용자가 NetApp Support Site 계정을 NetApp Console 로그인에 연결하지 않은 경우 동일한 지원 등록 상태를 볼 수 없습니다. 하지만 그렇다고 해서 귀하의 NetApp 계정이 지원에 등록되지 않았다는 의미는 아닙니다. 계정 내 사용자 중 한 명이라도 이 단계를 완료했다면 귀하의 계정은 등록된 것입니다.
+
+
+
+
+
+[[existing-customer-but-no-nss-account]]
+=== 기존 고객이지만 NSS 계정이 없습니다
+
+기존 NetApp 고객으로 라이선스와 일련 번호는 있지만 NSS 계정이 없는 경우, NSS 계정을 생성하고 NetApp Console 로그인과 연결해야 합니다.
+
+.단계
+. NetApp 지원 사이트 계정을 생성하려면 다음을 완료하십시오. https://mysupport.netapp.com/site/user/registration["NetApp 지원 사이트 사용자 등록 양식"^]
++
+.. 적절한 사용자 레벨(일반적으로 *NetApp Customer/End User*)을 선택하십시오.
+.. 위에서 사용한 NetApp 계정 일련 번호(960xxxx)를 복사하여 일련 번호 필드에 입력하십시오. 이렇게 하면 계정 처리 속도가 빨라집니다.
+
+
+. <<NSS 계정을 보유한 기존 고객>> 아래의 단계를 완료하여 새 NSS 계정을 NetApp Console 로그인과 연결하십시오.
+
+
+
+
+[[brand-new-to-netapp]]
+=== NetApp을 처음 사용하시나요
+
+NetApp을 처음 사용하시거나 NSS 계정이 없으신 경우, 아래 각 단계를 따르십시오.
+
+.단계
+. Workload Factory 콘솔의 오른쪽 상단에서 *도움말 > 지원*을 선택하십시오.
++
+이 옵션을 선택하면 새 브라우저 탭에서 NetApp Console이 열리고 지원 대시보드가 로드됩니다.
+
+. 지원 자료 페이지에서 계정 ID 일련 번호를 찾으십시오.
++
+image:https://raw.githubusercontent.com/NetAppDocs/workload-family/main/media/screenshot-serial-number.png["지원이 첫 번째 옵션으로 표시된 도움말 메뉴의 스크린샷"]
+
+.  https://register.netapp.com["NetApp의 지원 등록 사이트"^]로 이동하여 *저는 등록된 NetApp 고객이 아닙니다*를 선택하십시오.
+. 필수 입력 항목(빨간색 별표가 있는 항목)을 모두 입력하세요.
+. *Product Line* 필드에서 *Cloud Manager*를 선택한 다음 해당 청구 제공업체를 선택하십시오.
+. 위 2단계에서 계정 일련 번호를 복사하고 보안 검사를 완료한 다음 NetApp의 글로벌 데이터 개인정보 보호 정책을 읽었음을 확인하십시오.
++
+이 안전한 거래를 완료하기 위해 제공하신 이메일 주소로 즉시 이메일이 발송됩니다. 몇 분 안에 인증 이메일이 도착하지 않으면 스팸 폴더를 확인해 주세요.
+
+. 이메일 내에서 작업을 확인합니다.
++
+확인을 클릭하면 NetApp에 요청이 제출되며 NetApp 지원 사이트 계정을 생성할 것을 권장합니다.
+
+. NetApp 지원 사이트 계정을 생성하려면 다음을 완료하십시오. https://mysupport.netapp.com/site/user/registration["NetApp 지원 사이트 사용자 등록 양식"^]
++
+.. 적절한 사용자 레벨(일반적으로 *NetApp Customer/End User*)을 선택하십시오.
+.. 위에서 사용한 계정 일련 번호(960xxxx)를 복사하여 일련 번호 입력란에 붙여넣으십시오. 이렇게 하면 계정 처리 속도가 빨라집니다.
+
+
+
+
+.완료한 후
+NetApp이 이 과정 중에 연락을 드릴 것입니다. 이는 신규 사용자를 위한 일회성 온보딩 절차입니다.
+
+NetApp 지원 사이트 계정을 확보한 후, <<NSS 계정을 보유한 기존 고객>> 아래의 단계를 완료하여 해당 계정을 NetApp Console 로그인과 연결하십시오.

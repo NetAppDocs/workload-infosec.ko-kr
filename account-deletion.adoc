@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: account-deletion.html 
+keywords: account deletion, data removal, offboarding, file system deletion, credential deletion, link deletion, notification channel deletion, IAM role deletion, Lambda link deletion, CloudWatch monitoring stack deletion 
+summary: 계정 삭제는 셀프 서비스 작업이 아닙니다. 이는 Workload Factory 서비스와 AWS 계정의 리소스를 모두 포함하는 오프보딩 워크플로입니다. 
+---
+= NetApp Workload Factory 계정 삭제
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+계정 삭제는 셀프 서비스가 아니며, Workload Factory 서비스와 AWS 계정의 리소스를 모두 포함하는 오프보딩 워크플로입니다. 정리 작업에는 Workload Factory 계정, FSx for ONTAP 파일 시스템, 자격 증명, 링크, 알림 채널, 관련 IAM, AWS Lambda 및 Amazon CloudWatch 리소스와 연결된 모든 데이터가 안전하게 제거되는 작업이 포함됩니다. 이 작업은 되돌릴 수 없습니다.
+
+Workload Factory 계정을 제거해야 할 경우 link:get-help.adoc["NetApp 지원팀에 문의하십시오."]

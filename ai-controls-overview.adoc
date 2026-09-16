@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: ai-controls-overview.html 
+keywords: AI controls, generative AI, AI security, Ask Me assistant, latency analysis, EMS event analysis, error log analysis, Amazon Bedrock, AI diagnostics 
+summary: NetApp Workload Factory는 모델 액세스, 데이터 범위 및 런타임 동작에 대한 보안 제어를 강화하면서 진단 속도를 높이는 생성형 AI 기능을 포함합니다. 
+---
+= NetApp Workload Factory의 AI 제어 기능에 대해 알아보십시오.
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 모델 액세스, 데이터 범위 및 런타임 동작에 대한 보안 제어를 강화하면서 진단 속도를 높이는 생성형 AI 기능을 포함합니다.
+
+Workload Factory는 기본적으로 AI 진단을 활성화합니다. Workload Factory *Administration* 설정에서 언제든지 생성형 AI 기능을 비활성화할 수 있습니다. link:https://docs.netapp.com/us-en/workload-setup-admin/manage-genai-features.html["GenAI 기능 관리에 대해 자세히 알아보십시오."^]
+
+
+
+[[security-scoped-ai-feature-overview]]
+== 보안 범위 AI 기능 개요
+
+Workload Factory는 현재 다음과 같은 기능에 생성형 AI를 적용하고 있습니다.
+
+* Ask Me 어시스턴트(엄선된 NetApp 문서와 함께 RAG를 사용하여 소스 기반 응답 제공)
+* 지연 시간 분석
+* EMS 이벤트 분석
+* 오류 로그 분석
+
+
+
+
+[[aws-bedrock-overview-for-ai-diagnostics]]
+== AI 진단을 위한 AWS Bedrock 개요
+
+Workload Factory는 AI 추론을 위해 Amazon Bedrock을 사용합니다. 추론은 구성된 자격 증명 및 추론 프로필을 사용하여 AWS 계정에서 실행됩니다.
+
+
+
+[[related-information]]
+== 관련 정보
+
+* link:amazon-bedrock-opt-in.html["Amazon Bedrock에서 NetApp Workload Factory AI 진단 옵트인"]
+* link:ai-tool-boundaries.html["NetApp Workload Factory용 AI 툴 경계"]
+* link:ai-model-parameters-billing.html["NetApp Workload Factory용 AI 모델 파라미터 및 청구"]
+

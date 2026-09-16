@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: lambda-link-iam-permissions.html 
+keywords: Lambda link, IAM permissions, execution role, Secrets Manager, ONTAP credentials, VPC networking, lambda InvokeFunction, resource-based policy 
+summary: NetApp Workload Factory는 Lambda 링크 권한 경계를 사용하여 Lambda 실행 및 Workload Factory 호출에 필요한 IAM 액세스를 정의합니다. 이러한 권한은 선택 사항이지만 ONTAP 기반 작업에는 필수입니다. 
+---
+= NetApp Workload Factory용 Lambda 링크 IAM 권한
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 Lambda 링크 권한 경계를 사용하여 Lambda 실행 및 Workload Factory 호출에 필요한 IAM 액세스를 정의합니다. 이러한 권한은 선택 사항이지만 ONTAP 네이티브 작업에는 필수입니다. Secrets Manager 지원을 구성하면 링크는 런타임에 AWS Secrets Manager에서 ONTAP 자격 증명을 직접 가져오며, 암호는 Secrets Manager에서 Lambda 함수로, 그리고 다시 ONTAP 엔드포인트로 VPC 내에서만 전송됩니다.
+
+요청 경로 및 포트 요구 사항은 link:lambda-link-ports-calls.html["Lambda 링크 포트 및 호출"]을 참조하십시오.
+
+
+
+[[lambda-execution-role-permissions]]
+== Lambda 실행 역할 권한
+
+Lambda 실행 역할은 VPC에 링크를 배포할 때 다음 권한이 필요합니다.
+
+[cols="2,3"]
+|===
+| 권한 | 목적 
+
+
+| ec2:CreateNetworkInterface / ec2:DescribeNetworkInterfaces / ec2:DeleteNetworkInterface | 표준 VPC 연결 Lambda 네트워킹 
+
+
+| ec2:AssignPrivateIpAddresses / ec2:UnassignPrivateIpAddresses | VPC ENI IP 관리 
+
+
+| secretsmanager:GetSecretValue (FSxSecret* 범위) | ONTAP 자격 증명 검색(Secrets Manager가 활성화된 경우에만) 
+
+
+| CloudWatch Logs(관리형 정책) | Lambda 실행 로깅 
+|===
+
+
+[[workload-factory-invocation-permissions]]
+== Workload Factory 호출 권한
+
+Lambda 링크 리소스 기반 정책은 Workload Factory 서비스 주체에게 다음과 같은 권한을 부여합니다.
+
+[cols="2,3"]
+|===
+| 권한 | 목적 
+
+
+| lambda:InvokeFunction | Lambda를 실행합니다 
+
+
+| lambda:GetFunction | 상태 및 건강 점검 
+
+
+| lambda:UpdateFunctionCode | 버전 업그레이드(이미지 업데이트) 
+
+
+| lambda:GetFunctionConfiguration | 구성 검증 
+|===

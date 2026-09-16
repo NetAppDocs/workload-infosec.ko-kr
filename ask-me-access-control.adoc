@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ask-me-access-control.html 
+keywords: Ask Me access control, authentication, JWT, secrets vault, credential protection, log scrubbing, CORS, non-root container, user identity scoping 
+summary: NetApp Workload Factory에서 Ask Me 액세스 보안은 런타임 작업 중 인증된 세션, 사용자 수준의 책임, 보호된 비밀 키 처리에 중점을 둡니다. 
+---
+= NetApp Workload Factory용 Ask Me 액세스 제어
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory의 Ask Me 액세스 보안은 인증된 세션, 사용자 수준의 책임, 런타임 작업 중 보호된 비밀 키 처리에 중점을 둡니다. 인증 제어는 각 세션을 검증하고 상호 작용을 특정 사용자와 연결합니다. 민감한 자격 증명은 런타임에 관리되는 비밀 키 저장소에서 검색되고 로그에서 삭제됩니다. 또한 이 서비스는 루트 권한이 없는 컨테이너 실행 및 제한된 CORS 허용 목록을 포함한 인프라 제어를 적용합니다.
+
+
+
+[[authentication]]
+== 인증
+
+* 대상, 발급자 및 RS256 등 알고리즘 검사를 포함한 암호화 검증을 통한 서명된 JWT 인증
+* 서비스 경계에서 미들웨어를 이용한 인증
+* 사용자 ID 범위를 지정하여 상호 작용이 특정 사용자에게 귀속되도록 합니다.
+
+
+
+
+[[credential-protection-and-secret-handling]]
+== 자격 증명 보호 및 기밀 처리
+
+* 안전한 저장소: 서비스에서 사용하는 민감한 자격 증명은 관리형 비밀 저장소에 저장되며 런타임에 검색됩니다. 비밀 정보는 애플리케이션 코드, 구성 파일 또는 컨테이너 이미지에 저장되지 않습니다.
+* 로그 정제: 민감한 값(자격 증명, 토큰, 암호, 액세스 키, 인증서)은 로그에 기록되기 전에 삭제됩니다.
+
+
+
+
+[[infrastructure-security]]
+== 인프라 보안
+
+* 루트 권한이 없는 컨테이너 실행
+* CORS는 신뢰할 수 있는 NetApp 도메인의 명시적인 허용 목록으로 제한됩니다.
+

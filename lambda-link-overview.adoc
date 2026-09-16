@@ -1,0 +1,84 @@
+---
+sidebar: sidebar 
+permalink: lambda-link-overview.html 
+keywords: Lambda link overview, ONTAP-native operations, VPC deployment, security architecture, NetApp Console agent, CloudFormation, container image 
+summary: NetApp Workload Factory는 Amazon FSx for NetApp ONTAP API에서 ONTAP 네이티브 작업을 노출하지 않는 경우, VPC에 배포된 AWS Lambda 함수인 _link_를 사용하여 해당 작업을 AWS 계정 경계 내에서 유지합니다. 
+---
+= NetApp Workload Factory용 Lambda 링크에 대해 알아봅니다.
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 Amazon FSx for NetApp ONTAP API에서 노출되지 않는 ONTAP 네이티브 작업을 AWS 계정 경계 내에서 유지하기 위해 VPC에 배포된 AWS Lambda 함수인 _link_를 사용합니다. 이 링크는 사용자의 서브넷 및 보안 그룹에서 실행되므로 실행 구성 요소는 AWS 환경 내에 유지됩니다. Workload Factory는 사용 가능한 AWS 서비스 API가 아닌 직접 ONTAP 액세스가 필요한 작업에 대해서만 이 링크를 호출합니다. 링크의 아키텍처를 NetApp Console 에이전트의 보안 및 운영 프로필과 비교합니다.
+
+
+
+[[link-security-architecture]]
+== 링크 보안 아키텍처
+
+Workload Factory 링크는 Workload Factory 계정과 하나 이상의 FSx for ONTAP 파일 시스템 간에 신뢰 관계 및 간접 연결을 생성합니다.
+
+다음 표는 Lambda 링크 보안 아키텍처에 대한 개요를 제공합니다. 이 정보를 활용하여 네트워킹 구성, 런타임 환경 및 운영 제한 사항 등 Lambda 함수가 AWS 계정에 배포되고 실행되는 방식을 이해하십시오.
+
+[cols="2,3"]
+|===
+| 속성 | 세부 정보 
+
+
+| 컴퓨팅 | AWS Lambda(컨테이너 이미지) 
+
+
+| 런타임 | Node.js 22 
+
+
+| 구축 | CloudFormation AWS 계정의 스택 
+
+
+| VPC 배치 | 귀하의 서브넷, 보안 그룹 
+
+
+| 시간 초과 | 호출당 10초 
+
+
+| 호출 | 동기식(RequestResponse) 
+
+
+| 패키지 유형 | 컨테이너 이미지(NetApp ECR에서 가져옴) 
+|===
+다음 다이어그램은 Lambda 링크의 보안 아키텍처를 보여줍니다.
+
+image:infosec-link-diagram.png["람다 링크의 보안 아키텍처를 보여주는 다이어그램."]
+
+
+
+[[lambda-link-versus-netapp-console-agent]]
+== Lambda 링크와 NetApp Console 에이전트 비교
+
+Lambda 링크와 NetApp Console 에이전트는 서로 다른 목적을 가지고 있으며 보안 및 운영 측면에서 각기 다른 의미를 지닙니다.
+
+[cols="1,2,2"]
+|===
+| 차원 | 링크(Lambda 기반) | NetApp Console 에이전트(VM/Pod 기반) 
+
+
+| 런타임 모델 | 서버리스(AWS Lambda), 고객 배포 | 고객이 배포한 VM/컨테이너; NetApp 콘솔 서비스 Pod를 실행합니다. 
+
+
+| 주요 범위 | 컨트롤 플레인 ONTAP REST 작업(AWS API에서 해당 작업을 지원하지 않는 경우에만 해당) | 데이터 서비스를 위한 오케스트레이션 및 지원 기능 
+
+
+| 데이터 서비스 지원 | 데이터 서비스를 호스팅하지 않습니다 | 데이터 서비스를 호스팅할 수 있습니다(NetApp 콘솔 서비스 Pod 실행) 
+
+
+| 운영 오버헤드 | 상시 가동 VM 없음 | VM 수명 주기 관리 및 업그레이드 
+|===
+
+
+[[related-information]]
+== 관련 정보
+
+전체 시스템 간 연결성 맵은 link:connectivity-trust-paths.html["NetApp Workload Factory의 연결 및 신뢰 경로"]을 참조하십시오.

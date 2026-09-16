@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: security-model.html 
+keywords: security model, shared responsibility, IAM assume-role, STS credentials, ONTAP-native operations, VPC execution components, observability, data handling 
+summary: NetApp Workload Factory는 AWS 환경의 Amazon FSx for NetApp ONTAP에서 실행되는 워크로드를 관리하고 최적화할 수 있도록 지원하는 SaaS 컨트롤 플레인입니다. 
+---
+= NetApp Workload Factory의 보안 모델에 대해 알아보십시오.
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory는 AWS 환경의 Amazon FSx for NetApp ONTAP에서 실행되는 워크로드를 관리하고 최적화하는 데 도움이 되는 SaaS 제어 플레인입니다. 보안 결과는 NetApp, AWS 및 조직 간의 공동 책임에 따라 달라집니다.
+
+
+
+[[high-level-security-model]]
+== 고수준 보안 모델
+
+* Workload Factory는 IAM assume-role 모델을 사용하여 계정의 AWS API를 호출하기 위한 임시 AWS STS 자격 증명을 얻습니다.
+* 일부 워크플로는 AWS API를 통해 노출되지 않는 ONTAP 네이티브 작업을 필요로 합니다. 이러한 작업은 고객이 배포한 실행 구성 요소(예: Lambda 링크)를 사용하여 VPC 내에서 실행할 수 있습니다.
+* 관측 가능성 신호(측정 지표, 원격 측정 데이터 및 운영 기록)는 운영 모니터링 및 조사를 지원합니다.
+
+
+
+
+[[key-review-questions]]
+== 주요 복습 질문
+
+* Workload Factory는 AWS 계정에 대해 어떤 액세스 권한(역할 신뢰 + 권한)을 요구합니까?
+* 의도하는 워크플로에 적용되는 실행 경로는 무엇입니까(AWS API 전용 또는 VPC 구성 요소를 통한 ONTAP 네이티브 작업)?
+* 어떤 데이터 범주(구성/메타데이터, 운영 로그/이벤트, 텔레메트리)가 처리되며, 이러한 데이터는 어디에 저장됩니까?
+* 어떤 모니터링 신호가 존재하며, 그 신호의 보존 특성은 무엇입니까?
+
+
+
+
+[[whats-next]]
+== 다음 단계
+
+* link:shared-responsibility-boundaries.html["NetApp Workload Factory의 공동 책임 경계"]
+* link:connectivity-trust-paths.html["NetApp Workload Factory의 연결 및 신뢰 경로"]
+* link:least-privilege-permissions.html["NetApp Workload Factory의 최소 권한 권한 계층"]
+
