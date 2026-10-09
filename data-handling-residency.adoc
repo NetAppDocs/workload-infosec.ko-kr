@@ -64,7 +64,7 @@ Workload Factory는 다음 데이터를 저장합니다.
 
 * FSx 구성, 균형 조정 계획, ARP 구성 및 AI 사용 제한
 * 임시 AWS STS 자격 증명(Redis에 캐시됨), 응답 캐시, 잠금 및 배포 상태
-* CloudFormation/Terraform 템플릿, WAD 구성 설명자 및 압축 보고서
+* CloudFormation/Terraform 템플릿, 잘 설계된 구성 설명자 및 압축 보고서
 * AI 사용량 측정 및 수집기 성능 지표
 * EDA 집계 지표
 * 작업 감사 추적

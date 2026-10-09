@@ -500,7 +500,6 @@
   <block id="ac252743de820aac9183d9f76d4bed67" category="section-title">NetApp 계정</block>
   <block id="fa6063b1c2f2305250c0e4398ff9f643" category="list-text">FSx 구성, 균형 조정 계획, ARP 구성 및 AI 사용 제한</block>
   <block id="bf287b813cd334fda1fc42e415bf3dc7" category="list-text">임시 AWS STS 자격 증명(Redis에 캐시됨), 응답 캐시, 잠금 및 배포 상태</block>
-  <block id="f61c0a27e4ead4113f37e307fceeac09" category="list-text">CloudFormation/Terraform 템플릿, WAD 구성 설명자 및 압축 보고서</block>
   <block id="9f80825b2d67b8ccab25b67e670760f5" category="list-text">AI 사용량 측정 및 수집기 성능 지표</block>
   <block id="919e790bde6c7da375d06d2d8a044fef" category="list-text">EDA 집계 지표</block>
   <block id="92d894d5716ae374c87da601cbacccdb" category="list-text">작업 감사 추적</block>
@@ -1215,4 +1214,5 @@
   <block id="4d9cde297d1c003eba9c5b3021d6839e" category="sidebar">ONTAP 운영 및 Lambda 링크(고객 VPC 구성 요소)</block>
   <block id="a3a6979c264d714e00c70c8cf88cc14b" category="sidebar">Lambda 링크 수명 주기</block>
   <block id="30d965eef5ba25c6b9998ae38270b43e" category="sidebar">법적 고지</block>
+  <block id="e48f7b50b793847bd7a92cb2216e1751" category="list-text">CloudFormation/Terraform 템플릿, 잘 설계된 구성 설명자 및 압축 보고서</block>
 </blocks>
